@@ -1,0 +1,8 @@
+{
+  "name": "app-two",
+  "port": 80,
+  "containerPort": 8080,
+  "replicas": 1,
+  "host": "app-two.enne.dev",
+  "path": "/"
+}

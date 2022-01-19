@@ -3,14 +3,46 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "build": "turbo run build",
+    "build:service-one": "cd apps/service-one && pnpm run build",
+    "dev": "turbo run dev --parallel",
+    "test": "ts-node-dev .deploy/index.ts",
+    "deploy": "pulumi preview -C .deploy"
+  },
   "turbo": {
-    "baseBranch": "origin/main"
+    "baseBranch": "origin/main",
+    "pipeline": {
+      "build": {
+        "dependsOn": [
+          "^build"
+        ],
+        "outputs": [
+          "dist/**"
+        ]
+      },
+      "dev": {
+        "cache": false
+      }
+    }
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "@pulumi/aws": "^4.34.0",
+    "@pulumi/awsx": "^0.32.0",
+    "@pulumi/eks": "^0.36.0",
+    "@pulumi/kubernetes": "^3.14.0",
+    "@pulumi/kubernetes-ingress-nginx": "^0.0.1",
+    "@pulumi/pulumi": "^3.22.0",
+    "dotenv": "^14.2.0",
+    "ts-node-dev": "^1.1.8"
+  },
   "devDependencies": {
-    "turbo": "^1.0.24"
+    "@types/node": "^17.0.8",
+    "ts-node": "^10.4.0",
+    "turbo": "^1.0.28",
+    "typescript": "^4.5.4"
   }
 }

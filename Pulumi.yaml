@@ -1,0 +1,3 @@
+name: monorepo
+runtime: nodejs
+description: monorepo with pulumi

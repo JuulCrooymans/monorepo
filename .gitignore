@@ -1,8 +1,7 @@
-# Dependencies
 node_modules
-
-# Logs
+.turbo
+bin
 .pnpm-debug.log
-
-# Environment variables
 .env
+dist
+kubeconfig.yml

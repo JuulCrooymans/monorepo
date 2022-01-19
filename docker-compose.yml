@@ -1,0 +1,14 @@
+version: "3"
+services:
+  app-one:
+    build:
+      context: apps/app-one
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+  app-two:
+    build:
+      context: apps/app-two
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8080"
