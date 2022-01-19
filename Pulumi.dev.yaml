@@ -1,4 +1,2 @@
 config:
   aws:region: eu-west-3
-  monorepo:externalDnsCloudFlareToken:
-    secure: AAABAD/4B1U6qPwsbSAOK7f3c/m/MDKrubL9b3TS30Yg/8uWOde6g/0N0nJT95bkbhuNZ6k8aP08ZzM+XwnlsTVB1L2dJqTp

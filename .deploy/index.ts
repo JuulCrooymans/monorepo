@@ -127,3 +127,5 @@ const ingress = new k8s.networking.v1.Ingress(
   },
   { provider: cluster.provider }
 );
+
+export const test = 123;
