@@ -1,13 +1,13 @@
 {
   "name": "monorepo",
   "version": "1.0.0",
-  "main": ".deploy/index.ts",
+  "main": ".deploy/ecs.ts",
   "scripts": {
     "build": "turbo run build",
     "build:service-one": "cd apps/service-one && pnpm run build",
     "dev": "turbo run dev --parallel",
-    "test": "ts-node-dev .deploy/index.ts",
-    "deploy": "pulumi preview -s dev"
+    "test": "ts-node-dev test.ts",
+    "deploy": "pulumi up -s dev"
   },
   "turbo": {
     "baseBranch": "origin/main",

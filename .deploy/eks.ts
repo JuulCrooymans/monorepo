@@ -19,6 +19,7 @@ const cluster = new eks.Cluster(`${project}-cluster`, {
   privateSubnetIds: vpc.privateSubnetIds,
   publicSubnetIds: vpc.publicSubnetIds,
   nodeAssociatePublicIpAddress: false,
+  fargate: true,
 });
 
 // Helm chart: nginx-ingress
@@ -128,4 +129,4 @@ const ingress = new k8s.networking.v1.Ingress(
   { provider: cluster.provider }
 );
 
-export const test = 123;
+export const kubeconfig = cluster.kubeconfig;
