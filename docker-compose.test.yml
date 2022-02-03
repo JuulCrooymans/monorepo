@@ -1,5 +1,13 @@
 version: "3"
 services:
+  server:
+    build:
+      context: .
+      dockerfile: apps/server/Dockerfile
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/monorepo?schema=public
+    ports:
+      - "8080:8080"
   postgres:
     image: postgres:latest
     ports:
