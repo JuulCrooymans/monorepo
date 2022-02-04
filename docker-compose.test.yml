@@ -3,7 +3,7 @@ services:
   server:
     build:
       context: .
-      dockerfile: apps/server/Dockerfile
+      dockerfile: Dockerfile
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/monorepo?schema=public
     ports:
