@@ -15,7 +15,8 @@
     "docker:down": "docker-compose down",
     "docker:test": "docker-compose -f docker-compose.test.yml up",
     "docker:build": "docker-compose -f docker-compose.test.yml build",
-    "start:server": "node apps/server/dist/server.js"
+    "start:server": "node apps/server/dist/server.js",
+    "db:migrate": "npx prisma migrate deploy"
   },
   "keywords": [],
   "author": "",
