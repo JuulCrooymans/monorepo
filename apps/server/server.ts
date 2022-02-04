@@ -25,6 +25,7 @@ async function startServer() {
   await new Promise<void>((resolve) =>
     httpServer.listen({ port: 8080 }, resolve)
   );
+  console.log("Listening at: http://localhost:8080");
 }
 
 startServer();
