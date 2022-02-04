@@ -8,6 +8,11 @@ import { prisma } from "@monorepo/db";
 
 async function startServer() {
   const app = express();
+
+  app.get("/", (req, res) => {
+    res.send("test");
+  });
+
   const httpServer = http.createServer(app);
   const server = new ApolloServer({
     schema,
