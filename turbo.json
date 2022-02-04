@@ -7,6 +7,7 @@
     },
     "generate": {},
     "dev": {
+      "dependsOn": ["generate"],
       "cache": false
     }
   }
