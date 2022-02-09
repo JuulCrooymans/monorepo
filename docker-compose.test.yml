@@ -1,15 +1,24 @@
 version: "3"
 services:
   server:
+    hostname: server
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: apps/server/Dockerfile
       args:
         - BUILD=server
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/monorepo?schema=public
+      - SESSION_SECRET=secret
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_USERNAME=
+      - REDIS_PASSWORD=
     ports:
       - "8080:8080"
+    depends_on:
+      - postgres
+      - redis
   postgres:
     image: postgres:latest
     ports:

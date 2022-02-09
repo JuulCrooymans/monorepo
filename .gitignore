@@ -3,6 +3,8 @@ node_modules
 bin
 .pnpm-debug.log
 .env
+.env.local
 dist
 kubeconfig.yml
 *.generated.*
+.next

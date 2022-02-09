@@ -16,7 +16,9 @@
     "docker:test": "docker-compose -f docker-compose.test.yml up",
     "docker:build": "docker-compose -f docker-compose.test.yml build",
     "start:server": "node apps/server/dist/server.js",
-    "db:migrate": "npx prisma migrate deploy"
+    "start": "turbo run start",
+    "db:migrate": "npx prisma migrate deploy",
+    "db:migrate-dev": "npx prisma migrate dev"
   },
   "keywords": [],
   "author": "",

@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "main": "index.js",
-  "types": "types/index.d.ts",
   "files": [
-    "base.json"
+    "base.json",
+    "nextjs.json"
   ]
 }

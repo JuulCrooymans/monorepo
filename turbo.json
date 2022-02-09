@@ -2,13 +2,14 @@
   "baseBranch": "origin/main",
   "pipeline": {
     "build": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["generate", "^build"],
       "outputs": ["dist/**"]
     },
     "generate": {},
     "dev": {
       "dependsOn": ["generate"],
       "cache": false
-    }
+    },
+    "start": {}
   }
 }
