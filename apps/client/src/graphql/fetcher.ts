@@ -2,7 +2,8 @@ import { GraphQLClient } from "graphql-request";
 import { RequestInit } from "graphql-request/dist/types.dom";
 
 export const client = new GraphQLClient(
-  process.env.NEXT_PUBLIC_GRAPHQL_URL as string,
+  (process.env.NEXT_PUBLIC_GRAPHQL_URL as string) ||
+    "https://unwritten-steel-production.up.railway.app/graphql",
   {
     credentials: "include",
   }
