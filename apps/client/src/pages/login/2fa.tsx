@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { useVerifyTotpMutation } from "@graphql/queries";
@@ -7,6 +8,7 @@ import { Layout, Button } from "@components/Ui";
 
 function Login() {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const verifyTotp = useVerifyTotpMutation();
   const {
     register,
@@ -15,12 +17,15 @@ function Login() {
   } = useForm();
 
   const submitLogin = async ({ code }) => {
+    setLoading(true);
     try {
       await verifyTotp.mutateAsync({ code });
       router.push("/dashboard");
     } catch (err) {
       // TODO: error handling
       console.log(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -46,7 +51,9 @@ function Login() {
           })}
           error={errors.code}
         />
-        <Button type="submit">Login</Button>
+        <Button loading={loading} type="submit">
+          Login
+        </Button>
       </form>
     </div>
   );

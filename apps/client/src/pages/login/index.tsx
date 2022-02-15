@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
@@ -9,6 +10,7 @@ import { Layout, Button } from "@components/Ui";
 function Login() {
   const login = useLoginMutation();
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -16,6 +18,7 @@ function Login() {
   } = useForm();
 
   const submitLogin = async ({ email, password }) => {
+    setLoading(true);
     try {
       const user = await login.mutateAsync({ email, password });
 
@@ -29,6 +32,8 @@ function Login() {
     } catch (err) {
       // TODO: error handling
       console.log(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -61,7 +66,9 @@ function Login() {
           className="mb-4"
           error={errors.password}
         />
-        <Button type="submit">Login</Button>
+        <Button loading={loading} type="submit">
+          Login
+        </Button>
       </form>
       <div className="flex flex-col items-center mt-6 gap-4">
         <Link href="/sign-up">

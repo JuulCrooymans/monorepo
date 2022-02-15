@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import cn from "classnames";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 interface ButtonProps {
   children: string;
@@ -10,6 +11,7 @@ interface ButtonProps {
   small?: boolean;
   secondary?: boolean;
   href?: string;
+  loading?: boolean;
 }
 
 function Button({
@@ -20,6 +22,7 @@ function Button({
   secondary,
   onClick,
   href,
+  loading,
 }: ButtonProps) {
   const style = cn(
     "w-full h-10 flex items-center justify-center shadow-sm rounded-md",
@@ -33,7 +36,13 @@ function Button({
   if (href) {
     return (
       <Link href={href}>
-        <a className={style}>{children}</a>
+        <a className={style}>
+          {loading ? (
+            <AiOutlineLoading3Quarters className="animate-spin" size={24} />
+          ) : (
+            children
+          )}
+        </a>
       </Link>
     );
   }
@@ -41,14 +50,22 @@ function Button({
   if (onClick) {
     return (
       <button className={style} onClick={onClick}>
-        {children}
+        {loading ? (
+          <AiOutlineLoading3Quarters className="animate-spin" size={24} />
+        ) : (
+          children
+        )}
       </button>
     );
   }
 
   return (
     <button className={style} type={type} onClick={onClick}>
-      {children}
+      {loading ? (
+        <AiOutlineLoading3Quarters className="animate-spin" size={24} />
+      ) : (
+        children
+      )}
     </button>
   );
 }
