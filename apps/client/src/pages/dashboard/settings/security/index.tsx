@@ -39,7 +39,7 @@ function Security() {
       await disableTotpMutation.mutateAsync({});
       await refetchMe();
     } catch (err) {
-      // TODO: error handling
+      // TODO: error handlin
       console.log(err);
     }
   };
