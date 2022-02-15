@@ -55,6 +55,7 @@ async function startServer() {
         maxAge: 7 * 24 * 60 * 60 * 1000, // 1 weeks
         sameSite: "lax",
         httpOnly: true,
+        domain: "monorepo-lilac.vercel.app",
       },
     })
   );
