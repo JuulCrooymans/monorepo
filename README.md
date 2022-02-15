@@ -21,3 +21,7 @@ Now that you have your database running, run the command below in a separate ter
 ```bash
 $ yarn dev
 ```
+
+## About
+
+Redis: A fast session store for the user session

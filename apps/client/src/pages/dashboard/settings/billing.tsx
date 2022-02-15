@@ -1,16 +1,16 @@
 import { Layout } from "@components/Ui";
 
-function Settings() {
+function Billing() {
   return (
     <div>
       <h2 className="text-xl border-b pb-2 mb-4 font-bold dark:border-border-dark border-border-light">
-        Theme
+        Billing
       </h2>
     </div>
   );
 }
 
-Settings.getLayout = (page: React.ReactElement) => {
+Billing.getLayout = (page: React.ReactElement) => {
   return (
     <Layout>
       <Layout.Settings>{page}</Layout.Settings>
@@ -18,4 +18,4 @@ Settings.getLayout = (page: React.ReactElement) => {
   );
 };
 
-export default Settings;
+export default Billing;

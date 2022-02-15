@@ -6,10 +6,10 @@ function Navbar() {
       <div className="text-2xl font-bold">Logo</div>
       <div className="flex space-x-6 items-center">
         <Link href={"/login"}>
-          <a>Sign in</a>
+          <a>Login</a>
         </Link>
         <Link href={"/sign-up"}>
-          <a className="bg-black py-2 px-6 text-white rounded-lg">Sign up</a>
+          <a className="bg-primary py-2 px-6 text-white rounded-lg">Sign up</a>
         </Link>
       </div>
     </div>

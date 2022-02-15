@@ -1,5 +1,29 @@
+type Session {
+  id: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  ip: String!
+  userId: String!
+  user: User
+}
+
+type Totp {
+  qr: String!
+  uri: String!
+  secret: String!
+}
+
+extend type Query {
+  sessions: [Session!]
+  getTotp: Totp!
+}
+
 extend type Mutation {
   login(email: String!, password: String!): User
   signUp(email: String!, password: String!): User
   logout: Boolean
+  deleteSession(id: String!): Session
+  enableTotp(secret: String!): Boolean
+  disableTotp: Boolean
+  verifyTotp(code: String!): Boolean
 }

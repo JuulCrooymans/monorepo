@@ -1,5 +1,14 @@
 import bcrypt from "bcrypt";
 
+interface User {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  email: string;
+  secret: string | null;
+  validTotp: boolean;
+}
+
 /**
  * Generate a secure password.
  * @param {String} password password from the user
@@ -23,4 +32,21 @@ export async function comparePassword(
   password: string
 ): Promise<boolean> {
   return await bcrypt.compare(password, hash);
+}
+
+export function isAuth(user?: User): boolean {
+  // If the user has 2fa enabled
+  if (user && user.secret && user.validTotp) {
+    return true;
+  }
+
+  if (user && user.secret && !user.validTotp) {
+    return false;
+  }
+
+  if (user && !user.secret) {
+    return true;
+  }
+
+  return false;
 }

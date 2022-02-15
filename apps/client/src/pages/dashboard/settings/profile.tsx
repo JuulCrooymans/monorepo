@@ -1,16 +1,16 @@
 import { Layout } from "@components/Ui";
 
-function Settings() {
+function Profile() {
   return (
     <div>
       <h2 className="text-xl border-b pb-2 mb-4 font-bold dark:border-border-dark border-border-light">
-        Theme
+        Profile
       </h2>
     </div>
   );
 }
 
-Settings.getLayout = (page: React.ReactElement) => {
+Profile.getLayout = (page: React.ReactElement) => {
   return (
     <Layout>
       <Layout.Settings>{page}</Layout.Settings>
@@ -18,4 +18,4 @@ Settings.getLayout = (page: React.ReactElement) => {
   );
 };
 
-export default Settings;
+export default Profile;

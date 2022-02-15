@@ -9,9 +9,29 @@ generator client {
 }
 
 model User {
+  id            String          @id @default(uuid())
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @default(now()) @updatedAt
+  email         String          @unique
+  password      String
+  secret        String?
+  sessions      Session[]
+  passwordReset PasswordReset[]
+}
+
+model Session {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
-  email     String   @unique
-  password  String
+  ip        String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+}
+
+model PasswordReset {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  token     String
 }

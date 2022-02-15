@@ -3,6 +3,7 @@ type User {
   createdAt: DateTime!
   updatedAt: DateTime!
   email: String!
+  enabledTotp: Boolean
 }
 
 extend type Query {

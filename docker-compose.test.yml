@@ -4,7 +4,7 @@ services:
     hostname: server
     build:
       context: .
-      dockerfile: apps/server/Dockerfile
+      dockerfile: Dockerfile
       args:
         - BUILD=server
     environment:

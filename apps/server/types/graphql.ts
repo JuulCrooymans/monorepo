@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import { PrismaClientType } from "@monorepo/db";
+import { Redis } from "ioredis";
+import { CacheContext } from "../utils/redis";
 
 export interface Context {
   req: Request;
@@ -10,5 +12,10 @@ export interface Context {
     createdAt: Date;
     updatedAt: Date;
     email: string;
+    secret: string | null;
+    validTotp: boolean;
   } | null;
+  isAuth: boolean;
+  redis: Redis;
+  cache: CacheContext;
 }

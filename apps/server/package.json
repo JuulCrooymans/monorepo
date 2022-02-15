@@ -17,6 +17,7 @@
     "@types/bcrypt": "^5.0.0",
     "@types/connect-redis": "^0.0.18",
     "@types/express": "^4.17.13",
+    "@types/geoip-lite": "^1.4.1",
     "@types/ioredis": "^4.28.8",
     "@types/lodash": "^4.14.178",
     "@types/node": "^17.0.8",
@@ -35,9 +36,11 @@
     "dotenv": "^16.0.0",
     "express": "^4.17.2",
     "express-session": "^1.17.2",
+    "geoip-lite": "^1.4.3",
     "graphql": "^16.3.0",
     "graphql-scalars": "^1.14.1",
     "ioredis": "^4.28.5",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "node-2fa": "^2.0.3"
   }
 }

@@ -17,7 +17,7 @@ function DashboardNavbar() {
   };
 
   return (
-    <div className="h-12 w-full items-center flex px-4 justify-between">
+    <div className="h-12 w-full items-center flex px-4 justify-between ">
       <Link href="/dashboard">
         <a className="text-xl font-bold">Logo</a>
       </Link>

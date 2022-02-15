@@ -19,8 +19,12 @@ function Login() {
     try {
       const user = await login.mutateAsync({ email, password });
 
+      if (user.login.enabledTotp) {
+        return router.push("/login/2fa");
+      }
+
       if (user) {
-        router.push("/dashboard");
+        return router.push("/dashboard");
       }
     } catch (err) {
       // TODO: error handling
@@ -59,10 +63,15 @@ function Login() {
         />
         <Button type="submit">Login</Button>
       </form>
-      <div className="flex justify-center mt-4">
+      <div className="flex flex-col items-center mt-6 gap-4">
         <Link href="/sign-up">
           <a>
             No account? <strong>Sign up</strong>
+          </a>
+        </Link>
+        <Link href="/forgot-password">
+          <a>
+            <strong>Forgot password?</strong>
           </a>
         </Link>
       </div>

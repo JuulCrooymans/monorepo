@@ -6,5 +6,4 @@ bin
 .env.local
 dist
 kubeconfig.yml
-*.generated.*
 .next

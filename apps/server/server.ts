@@ -9,7 +9,8 @@ import { prisma } from "@monorepo/db";
 import cors from "cors";
 import session from "express-session";
 
-import Redis from "ioredis";
+import { redis, cache } from "./utils/redis";
+import { isAuth } from "./utils/auth";
 import connectRedis from "connect-redis";
 
 declare module "express-session" {
@@ -19,22 +20,20 @@ declare module "express-session" {
       createdAt: Date;
       updatedAt: Date;
       email: string;
+      secret: string | null;
+      validTotp: boolean;
     };
   }
 }
 
 dotenv.config();
 
-const redis = new Redis({
-  host: process.env.REDIS_HOST,
-  port: parseInt(process.env.REDIS_PORT as string),
-  username: process.env.REDIS_USERNAME,
-  password: process.env.REDIS_PASSWORD,
-});
 const RedisStore = connectRedis(session);
 
 async function startServer() {
   const app = express();
+
+  app.set("trust proxy", true);
 
   app.use(
     cors({
@@ -73,6 +72,9 @@ async function startServer() {
           res,
           prisma,
           user: req.session.user,
+          isAuth: isAuth(req.session.user),
+          redis,
+          cache,
         };
       }
 
@@ -80,7 +82,10 @@ async function startServer() {
         req,
         res,
         prisma,
+        redis,
         user: null,
+        isAuth: false,
+        cache,
       };
     },
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],

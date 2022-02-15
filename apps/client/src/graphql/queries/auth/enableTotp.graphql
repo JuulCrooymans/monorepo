@@ -1,0 +1,3 @@
+mutation EnableTotp($secret: String!) {
+  enableTotp(secret: $secret)
+}

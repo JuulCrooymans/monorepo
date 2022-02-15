@@ -1,0 +1,3 @@
+mutation VerifyTotp($code: String!) {
+  verifyTotp(code: $code)
+}

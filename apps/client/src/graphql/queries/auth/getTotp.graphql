@@ -1,0 +1,7 @@
+query GetTotp {
+  getTotp {
+    secret
+    qr
+    uri
+  }
+}

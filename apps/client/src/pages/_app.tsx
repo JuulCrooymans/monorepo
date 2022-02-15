@@ -1,5 +1,5 @@
 import "../styles/global.css";
-import type { ReactElement, ReactNode } from "react";
+import { ReactElement, ReactNode, useLayoutEffect } from "react";
 import type { NextPage } from "next";
 import type { AppProps } from "next/app";
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -19,7 +19,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {getLayout(<Component {...pageProps} />)}
+      <div>{getLayout(<Component {...pageProps} />)}</div>
     </QueryClientProvider>
   );
 }
