@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "gen-queries": "graphql-codegen --config codegen.yml"
+    "gen-queries": "npx graphql-codegen --config codegen.yml"
   },
   "dependencies": {
     "classnames": "^2.3.1",

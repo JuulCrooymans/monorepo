@@ -7,7 +7,7 @@
     "start": "node dist/server.js",
     "build": "rm -rf dist && tsc -p tsconfig.json && copyfiles -E graphql/typeDefs/*.graphql dist/",
     "dev": "ts-node-dev server.ts",
-    "generate": "graphql-codegen --config codegen.yml"
+    "generate": "npx graphql-codegen --config codegen.yml"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^2.4.0",

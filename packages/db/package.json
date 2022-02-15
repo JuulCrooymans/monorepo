@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "dist/index.js",
   "scripts": {
-    "generate": "prisma generate",
-    "migrate": "prisma migrate dev",
-    "seed": "prisma migrate reset",
+    "generate": "npx prisma generate",
+    "migrate": "npx prisma migrate dev",
+    "seed": "npx prisma migrate reset",
     "build": "rm -rf dist && tsc -p tsconfig.json"
   },
   "license": "ISC",
