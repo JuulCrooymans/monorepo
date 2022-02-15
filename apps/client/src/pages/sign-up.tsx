@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSignUpMutation } from "@graphql/queries";
 
@@ -10,6 +10,7 @@ import { Layout, Button } from "@components/Ui";
 function SignUp() {
   const router = useRouter();
   const signUp = useSignUpMutation();
+  const [loading, setLoading] = useState(false);
   const password = useRef();
   const {
     register,
@@ -20,12 +21,14 @@ function SignUp() {
   password.current = watch("password", "");
 
   const submitSignUp = async ({ email, password }) => {
+    setLoading(true);
     try {
       await signUp.mutateAsync({ email, password });
       router.push("/dashboard");
     } catch (err) {
       // TODO: error handling
       console.log(err);
+      setLoading(false);
     }
   };
 
@@ -77,7 +80,9 @@ function SignUp() {
           className="mb-4"
           error={errors.repeatPassword}
         />
-        <Button type="submit">Sign up</Button>
+        <Button loading={loading} type="submit">
+          Sign up
+        </Button>
       </form>
       <div className="flex justify-center mt-4">
         <Link href="/login">

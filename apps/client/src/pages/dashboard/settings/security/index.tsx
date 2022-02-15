@@ -51,7 +51,7 @@ function Security() {
           Change password
         </h2>
         <form
-          className="flex flex-col space-y-4 w-1/2"
+          className="flex flex-col space-y-4 lg:w-1/2 w-full"
           onSubmit={handleResetPassword(submitPassword)}
         >
           <Input
