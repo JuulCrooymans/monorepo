@@ -23,8 +23,8 @@ function SettingsSidebar() {
       <div className="w-full flex flex-col">
         {isLoading ? (
           <div className="pl-2 mb-5 flex flex-col">
-            <div className="bg-gray-100 dark:bg-dark-500 animate-pulse h-6 rounded-md w-64 mb-2"></div>
-            <div className="bg-gray-100 dark:bg-dark-500 animate-pulse h-4 rounded w-32"></div>
+            <div className="bg-gray-100 dark:bg-dark-500 animate-pulse h-6 rounded-md w-full mb-2"></div>
+            <div className="bg-gray-100 dark:bg-dark-500 animate-pulse h-4 rounded w-1/2"></div>
           </div>
         ) : (
           <div className="pl-2 mb-6 flex flex-col">
