@@ -13,7 +13,11 @@ import { Input } from "@components/Form";
 function Security() {
   const { register: registerResetPassword, handleSubmit: handleResetPassword } =
     useForm();
-  const { data: sessionsData, refetch: refetchSessions } = useSessionsQuery();
+  const {
+    data: sessionsData,
+    refetch: refetchSessions,
+    isLoading: sessionsLoading,
+  } = useSessionsQuery();
   const { data: meData, refetch: refetchMe } = useMeQuery();
   const deleteSessionMutation = useDeleteSessionMutation();
   const disableTotpMutation = useDisableTotpMutation();
@@ -107,6 +111,19 @@ function Security() {
         <h2 className="text-xl border-b dark:border-border-dark border-border-light pb-2 font-bold">
           Sessions
         </h2>
+        {sessionsLoading && !sessionsData && (
+          <>
+            <div className="py-4 border-b last:border-b-0 dark:border-border-dark border-border-light flex justify-between items-center">
+              <div className="w-full h-8 bg-dark-500 animate-pulse rounded-md"></div>
+            </div>
+            <div className="py-4 border-b last:border-b-0 dark:border-border-dark border-border-light flex justify-between items-center">
+              <div className="w-full h-8 bg-dark-500 animate-pulse rounded-md"></div>
+            </div>
+            <div className="py-4 border-b last:border-b-0 dark:border-border-dark border-border-light flex justify-between items-center">
+              <div className="w-full h-8 bg-dark-500 animate-pulse rounded-md"></div>
+            </div>
+          </>
+        )}
         {sessionsData &&
           sessionsData.sessions &&
           sessionsData.sessions.map((s) => (
