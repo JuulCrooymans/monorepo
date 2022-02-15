@@ -16,8 +16,7 @@ export async function isAuth(
   options?: isAuthOptions
 ): Promise<boolean> {
   const res = await fetch(
-    process.env.NEXT_PUBLIC_GRAPHQL_URL ||
-      "https://unwritten-steel-production.up.railway.app/graphql",
+    process.env.NEXT_PUBLIC_GRAPHQL_URL || "https://api.enne.dev/graphql",
     {
       method: "POST",
       headers: {

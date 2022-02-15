@@ -37,7 +37,7 @@ async function startServer() {
 
   app.use(
     cors({
-      origin: ["http://localhost:3000", "https://monorepo-lilac.vercel.app"],
+      origin: ["http://localhost:3000", "https://enne.dev"],
       credentials: true,
     })
   );
@@ -55,7 +55,7 @@ async function startServer() {
         maxAge: 7 * 24 * 60 * 60 * 1000, // 1 weeks
         sameSite: "lax",
         httpOnly: true,
-        domain: "monorepo-lilac.vercel.app",
+        domain: "enne.dev",
       },
     })
   );
