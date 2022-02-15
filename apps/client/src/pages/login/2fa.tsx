@@ -24,7 +24,6 @@ function Login() {
     } catch (err) {
       // TODO: error handling
       console.log(err);
-    } finally {
       setLoading(false);
     }
   };
