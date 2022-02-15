@@ -33,7 +33,7 @@ const RedisStore = connectRedis(session);
 async function startServer() {
   const app = express();
 
-  app.set("trust proxy", true);
+  app.set("trust proxy", 1);
 
   app.use(
     cors({
@@ -51,8 +51,9 @@ async function startServer() {
       name: "sess",
       cookie: {
         secure: process.env.NODE_ENV === "production",
+        path: "/",
         maxAge: 7 * 24 * 60 * 60 * 1000, // 1 weeks
-        sameSite: false,
+        sameSite: "lax",
         httpOnly: true,
       },
     })
