@@ -38,11 +38,11 @@ Layout.Settings = ({ children }: SettingsLayout) => {
   return (
     <div>
       <DashboardNavbar />
-      <div className="grid grid-cols-10 max-w-7xl mx-auto gap-x-8">
-        <div className="col-span-2">
+      <div className="lg:grid lg:grid-cols-10 max-w-7xl mx-auto gap-x-8 lg:pl-2 pl-4 pr-4">
+        <div className="lg:col-span-2">
           <SettingsSidebar />
         </div>
-        <div className="w-full col-span-6">{children}</div>
+        <div className="w-full xl:col-span-6 lg:col-span-8">{children}</div>
       </div>
     </div>
   );
