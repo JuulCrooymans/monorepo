@@ -36,7 +36,7 @@ export async function isAuth(
     }
   );
 
-  const data = await res.json();
+  const { data } = await res.json();
 
   if (data && data.me && data.me.id) {
     return true;

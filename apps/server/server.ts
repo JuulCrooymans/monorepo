@@ -55,7 +55,7 @@ async function startServer() {
         maxAge: 7 * 24 * 60 * 60 * 1000, // 1 weeks
         sameSite: "lax",
         httpOnly: true,
-        domain: "enne.dev",
+        domain: process.env.NODE_ENV === "production" ? "enne.dev" : undefined,
       },
     })
   );
