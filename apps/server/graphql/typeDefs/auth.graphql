@@ -26,4 +26,6 @@ extend type Mutation {
   enableTotp(secret: String!): Boolean
   disableTotp: Boolean
   verifyTotp(code: String!): Boolean
+  resetPassword(oldPassword: String!, newPassword: String!): Boolean
+  resetPasswordWithEmail(email: String!): Boolean
 }

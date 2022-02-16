@@ -24,6 +24,8 @@ export type Mutation = {
   enableTotp?: Maybe<Scalars['Boolean']>;
   login?: Maybe<User>;
   logout?: Maybe<Scalars['Boolean']>;
+  resetPassword?: Maybe<Scalars['Boolean']>;
+  resetPasswordWithEmail?: Maybe<Scalars['Boolean']>;
   root?: Maybe<Scalars['String']>;
   signUp?: Maybe<User>;
   verifyTotp?: Maybe<Scalars['Boolean']>;
@@ -43,6 +45,17 @@ export type MutationEnableTotpArgs = {
 export type MutationLoginArgs = {
   email: Scalars['String'];
   password: Scalars['String'];
+};
+
+
+export type MutationResetPasswordArgs = {
+  newPassword: Scalars['String'];
+  oldPassword: Scalars['String'];
+};
+
+
+export type MutationResetPasswordWithEmailArgs = {
+  email: Scalars['String'];
 };
 
 
@@ -126,6 +139,14 @@ export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
 
 export type LogoutMutation = { __typename?: 'Mutation', logout?: boolean | null };
+
+export type ResetPasswordMutationVariables = Exact<{
+  oldPassword: Scalars['String'];
+  newPassword: Scalars['String'];
+}>;
+
+
+export type ResetPasswordMutation = { __typename?: 'Mutation', resetPassword?: boolean | null };
 
 export type SessionsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -247,6 +268,20 @@ export const useLogoutMutation = <
     useMutation<LogoutMutation, TError, LogoutMutationVariables, TContext>(
       ['Logout'],
       (variables?: LogoutMutationVariables) => fetch<LogoutMutation, LogoutMutationVariables>(LogoutDocument, variables)(),
+      options
+    );
+export const ResetPasswordDocument = `
+    mutation ResetPassword($oldPassword: String!, $newPassword: String!) {
+  resetPassword(oldPassword: $oldPassword, newPassword: $newPassword)
+}
+    `;
+export const useResetPasswordMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<ResetPasswordMutation, TError, ResetPasswordMutationVariables, TContext>) =>
+    useMutation<ResetPasswordMutation, TError, ResetPasswordMutationVariables, TContext>(
+      ['ResetPassword'],
+      (variables?: ResetPasswordMutationVariables) => fetch<ResetPasswordMutation, ResetPasswordMutationVariables>(ResetPasswordDocument, variables)(),
       options
     );
 export const SessionsDocument = `

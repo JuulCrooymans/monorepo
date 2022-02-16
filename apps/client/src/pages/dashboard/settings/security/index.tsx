@@ -4,8 +4,10 @@ import {
   useDeleteSessionMutation,
   useMeQuery,
   useDisableTotpMutation,
+  useResetPasswordMutation,
 } from "@graphql/queries";
 import dayjs from "dayjs";
+import toast from "react-hot-toast";
 
 import { Layout, Button } from "@components/Ui";
 import { Input } from "@components/Form";
@@ -21,8 +23,15 @@ function Security() {
   const { data: meData, refetch: refetchMe } = useMeQuery();
   const deleteSessionMutation = useDeleteSessionMutation();
   const disableTotpMutation = useDisableTotpMutation();
+  const resetPassword = useResetPasswordMutation();
 
-  const submitPassword = (data) => {};
+  const submitNewPassword = async ({ oldPassword, newPassword }) => {
+    toast.promise(resetPassword.mutateAsync({ oldPassword, newPassword }), {
+      loading: "Loading",
+      success: "Password has been reset",
+      error: "Something went wrong",
+    });
+  };
 
   const deleteSession = async (id: string) => {
     try {
@@ -52,11 +61,11 @@ function Security() {
         </h2>
         <form
           className="flex flex-col space-y-4 lg:w-1/2 w-full"
-          onSubmit={handleResetPassword(submitPassword)}
+          onSubmit={handleResetPassword(submitNewPassword)}
         >
           <Input
             label="Current password"
-            register={registerResetPassword("currentPassword", {
+            register={registerResetPassword("oldPassword", {
               required: true,
             })}
             type="password"
