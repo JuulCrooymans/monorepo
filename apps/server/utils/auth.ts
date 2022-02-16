@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import crypto from "crypto";
 
 interface User {
   id: string;
@@ -32,6 +33,18 @@ export async function comparePassword(
   password: string
 ): Promise<boolean> {
   return await bcrypt.compare(password, hash);
+}
+
+export async function resetPasswordToken(): Promise<{
+  hash: string;
+  token: string;
+}> {
+  const resetToken = crypto.randomBytes(32).toString("hex");
+  const salt = await bcrypt.genSalt(10);
+  return {
+    hash: await bcrypt.hash(resetToken, salt),
+    token: resetToken,
+  };
 }
 
 export function isAuth(user?: User): boolean {

@@ -25,7 +25,7 @@ function Button({
   loading,
 }: ButtonProps) {
   const style = cn(
-    "w-full h-10 flex items-center justify-center shadow-sm rounded-md",
+    "w-full flex items-center justify-center shadow-sm rounded-md",
     small ? "h-8 text-sm" : "h-10",
     secondary
       ? "border dark:border-border-dark border-border-light"

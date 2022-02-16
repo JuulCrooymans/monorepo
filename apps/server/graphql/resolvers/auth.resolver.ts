@@ -3,8 +3,14 @@ import {
   AuthenticationError,
   ApolloError,
   UserInputError,
+  ForbiddenError,
 } from "apollo-server-express";
-import { generatePassword, comparePassword } from "../../utils/auth";
+import {
+  generatePassword,
+  comparePassword,
+  resetPasswordToken,
+} from "../../utils/auth";
+import { sendEmail } from "../../utils/sendEmail";
 import { redis } from "../../utils/redis";
 import { generateSecret, verifyToken } from "node-2fa";
 
@@ -46,11 +52,16 @@ const resolver: Resolvers = {
         email: user.email,
         secret: user.secret,
         validTotp: false,
+        verified: user.verified,
       };
 
-      const ip: string =
+      const ip = (
         (req.headers["x-forwarded-for"] as string) ||
-        (req.socket.remoteAddress as string);
+        (req.socket.remoteAddress as string) ||
+        ""
+      )
+        .split(",")[0]
+        .trim();
 
       // Store this session in
       await prisma.session.upsert({
@@ -73,6 +84,7 @@ const resolver: Resolvers = {
         updatedAt: user.updatedAt,
         email: user.email,
         enabledTotp: !!user.secret,
+        verified: user.verified,
       };
     },
     signUp: async (_, { email, password }, { prisma, req }) => {
@@ -100,6 +112,7 @@ const resolver: Resolvers = {
           createdAt: true,
           updatedAt: true,
           secret: true,
+          verified: true,
         },
       });
 
@@ -110,11 +123,16 @@ const resolver: Resolvers = {
         email: user.email,
         secret: user.secret,
         validTotp: false,
+        verified: user.verified,
       };
 
-      const ip: string =
+      const ip = (
         (req.headers["x-forwarded-for"] as string) ||
-        (req.socket.remoteAddress as string);
+        (req.socket.remoteAddress as string) ||
+        ""
+      )
+        .split(",")[0]
+        .trim();
 
       // Store this session in
       await prisma.session.create({
@@ -127,6 +145,12 @@ const resolver: Resolvers = {
             },
           },
         },
+      });
+
+      sendEmail({
+        to: email,
+        subject: "Reset password",
+        text: `Hi,\n\nYou can reset here: `,
       });
 
       return user;
@@ -238,6 +262,91 @@ const resolver: Resolvers = {
       });
 
       return true;
+    },
+    resetPasswordWithEmail: async (_, { email }, { prisma }) => {
+      const user = await prisma.user.findUnique({
+        where: {
+          email,
+        },
+      });
+
+      if (!user) {
+        throw new UserInputError("E-mail not found", {
+          arg: "email",
+        });
+      }
+
+      const { token, hash } = await resetPasswordToken();
+
+      await prisma.passwordReset.create({
+        data: {
+          token: hash,
+          user: {
+            connect: {
+              email,
+            },
+          },
+        },
+      });
+
+      sendEmail({
+        to: email,
+        subject: "Reset password",
+        text: `Hi,\n\nYou can reset here: ${process.env.CLIENT_URL}/reset-password?token=${token}&id=${user.id}`,
+      });
+
+      return null;
+    },
+    resetPasswordWithToken: async (
+      _,
+      { userId, token, password },
+      { prisma }
+    ) => {
+      const resetToken = await prisma.passwordReset.findFirst({
+        where: {
+          AND: [
+            {
+              userId,
+            },
+            {
+              createdAt: {
+                // Token expires in 30 min
+                gte: new Date(new Date().getTime() - 30 * 60 * 1000),
+              },
+            },
+          ],
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      });
+
+      if (!resetToken) {
+        throw new ForbiddenError("Reset token not valid or expired");
+      }
+
+      const checkToken = await comparePassword(resetToken.token, token);
+
+      if (!checkToken) {
+        throw new ForbiddenError("Reset token not valid or expired");
+      }
+
+      await prisma.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          password: await generatePassword(password),
+        },
+      });
+
+      await prisma.passwordReset.delete({
+        where: {
+          id: resetToken.id,
+        },
+      });
+
+      return null;
     },
   },
 };

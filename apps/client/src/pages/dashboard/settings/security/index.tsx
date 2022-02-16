@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { useRef } from "react";
 import {
   useSessionsQuery,
   useDeleteSessionMutation,
@@ -13,8 +14,12 @@ import { Layout, Button } from "@components/Ui";
 import { Input } from "@components/Form";
 
 function Security() {
-  const { register: registerResetPassword, handleSubmit: handleResetPassword } =
-    useForm();
+  const {
+    register: registerResetPassword,
+    handleSubmit: handleResetPassword,
+    formState: { errors: resetPasswordErrors },
+    watch,
+  } = useForm();
   const {
     data: sessionsData,
     refetch: refetchSessions,
@@ -24,6 +29,8 @@ function Security() {
   const deleteSessionMutation = useDeleteSessionMutation();
   const disableTotpMutation = useDisableTotpMutation();
   const resetPassword = useResetPasswordMutation();
+  const password = useRef();
+  password.current = watch("newPassword", "");
 
   const submitNewPassword = async ({ oldPassword, newPassword }) => {
     toast.promise(resetPassword.mutateAsync({ oldPassword, newPassword }), {
@@ -71,19 +78,27 @@ function Security() {
             type="password"
           />
           <Input
-            label="New password"
-            register={registerResetPassword("newPassword", {
-              required: true,
-            })}
+            label="Password"
             type="password"
+            register={registerResetPassword("newPassword", {
+              required: "A password is required",
+              minLength: {
+                message: "Your password must contain 8 characters",
+                value: 8,
+              },
+            })}
+            error={resetPasswordErrors.newPassword}
           />
           <Input
             label="Repeat password"
-            className="mb-4"
-            register={registerResetPassword("repeatPassword", {
-              required: true,
-            })}
             type="password"
+            register={registerResetPassword("repeatPassword", {
+              required: "A password is required",
+              validate: (value) =>
+                value === password.current || "Password doesn't match",
+            })}
+            className="mb-4"
+            error={resetPasswordErrors.repeatPassword}
           />
           <Button type="submit">Change password</Button>
         </form>

@@ -4,6 +4,7 @@ type User {
   updatedAt: DateTime!
   email: String!
   enabledTotp: Boolean
+  verified: Boolean!
 }
 
 extend type Query {

@@ -1,12 +1,28 @@
+import { useState } from "react";
+import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
+import { useResetPasswordWithEmailMutation } from "@graphql/queries";
 
 import { Layout, Button } from "@components/Ui";
 import { Input } from "@components/Form";
 
 function ForgotPassword() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const { register, handleSubmit } = useForm();
+  const resetPassword = useResetPasswordWithEmailMutation();
 
-  const submit = ({ email }) => {};
+  const submit = async ({ email }) => {
+    setLoading(true);
+    try {
+      await resetPassword.mutateAsync({ email });
+      router.push("/check-email");
+    } catch (err) {
+      // TODO: error handling
+      console.log(err);
+      setLoading(false);
+    }
+  };
 
   return (
     <div>
@@ -16,12 +32,15 @@ function ForgotPassword() {
           Enter your email to reset password
         </p>
       </div>
-      <form className="flex flex-col gap-y-6">
+      <form onSubmit={handleSubmit(submit)} className="flex flex-col gap-y-6">
         <Input
           label="Your email"
           register={register("email", { required: true })}
+          type="email"
         />
-        <Button>Reset password</Button>
+        <Button loading={loading} type="submit">
+          Reset password
+        </Button>
       </form>
     </div>
   );

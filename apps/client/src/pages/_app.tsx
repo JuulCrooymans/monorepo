@@ -24,7 +24,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
         {getLayout(
           <>
             <Component {...pageProps} />
-            <Toaster />
+            <Toaster position="bottom-right" />
           </>
         )}
       </div>

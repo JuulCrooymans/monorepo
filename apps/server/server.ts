@@ -22,6 +22,7 @@ declare module "express-session" {
       email: string;
       secret: string | null;
       validTotp: boolean;
+      verified: boolean;
     };
   }
 }

@@ -21,6 +21,7 @@ const resolver: Resolvers = {
               createdAt: me.createdAt,
               email: me.email,
               enabledTotp: !!me.secret,
+              verified: me.verified,
             };
           }
 
