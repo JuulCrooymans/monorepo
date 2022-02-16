@@ -10,7 +10,9 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@prisma/client": "^3.8.1"
+    "@prisma/client": "^3.8.1",
+    "@types/bcrypt": "^5.0.0",
+    "bcrypt": "^5.0.1"
   },
   "devDependencies": {
     "@monorepo/tsconfig": "1.0.0",

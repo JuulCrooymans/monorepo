@@ -1,8 +1,12 @@
 import { Resolvers } from "../../types/graphql.generated";
-import { AuthenticationError, ApolloError } from "apollo-server-express";
+import {
+  AuthenticationError,
+  ApolloError,
+  UserInputError,
+} from "apollo-server-express";
 import { generatePassword, comparePassword } from "../../utils/auth";
 import { redis } from "../../utils/redis";
-import { generateSecret, verifyToken, generateToken } from "node-2fa";
+import { generateSecret, verifyToken } from "node-2fa";
 
 const resolver: Resolvers = {
   Query: {
@@ -204,6 +208,36 @@ const resolver: Resolvers = {
       }
 
       return false;
+    },
+    resetPassword: async (
+      _,
+      { oldPassword, newPassword },
+      { isAuth, user, prisma }
+    ) => {
+      if (!isAuth || !user) {
+        throw new AuthenticationError("You must be logged in!");
+      }
+
+      const u = await prisma.user.findUnique({
+        where: { id: user.id },
+      });
+
+      if (!u) throw new ApolloError("No user found");
+
+      const checkOldPassword = await comparePassword(u.password, oldPassword);
+
+      if (!checkOldPassword) {
+        throw new UserInputError("Wrong current password");
+      }
+
+      const newPasswordHash = await generatePassword(newPassword);
+
+      await prisma.user.update({
+        where: { id: user.id },
+        data: { password: newPasswordHash },
+      });
+
+      return true;
     },
   },
 };

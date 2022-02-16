@@ -23,6 +23,8 @@ export type Mutation = {
   enableTotp?: Maybe<Scalars['Boolean']>;
   login?: Maybe<User>;
   logout?: Maybe<Scalars['Boolean']>;
+  resetPassword?: Maybe<Scalars['Boolean']>;
+  resetPasswordWithEmail?: Maybe<Scalars['Boolean']>;
   root?: Maybe<Scalars['String']>;
   signUp?: Maybe<User>;
   verifyTotp?: Maybe<Scalars['Boolean']>;
@@ -42,6 +44,17 @@ export type MutationEnableTotpArgs = {
 export type MutationLoginArgs = {
   email: Scalars['String'];
   password: Scalars['String'];
+};
+
+
+export type MutationResetPasswordArgs = {
+  newPassword: Scalars['String'];
+  oldPassword: Scalars['String'];
+};
+
+
+export type MutationResetPasswordWithEmailArgs = {
+  email: Scalars['String'];
 };
 
 
@@ -190,6 +203,8 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   enableTotp?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationEnableTotpArgs, 'secret'>>;
   login?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationLoginArgs, 'email' | 'password'>>;
   logout?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  resetPassword?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationResetPasswordArgs, 'newPassword' | 'oldPassword'>>;
+  resetPasswordWithEmail?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationResetPasswordWithEmailArgs, 'email'>>;
   root?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   signUp?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationSignUpArgs, 'email' | 'password'>>;
   verifyTotp?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationVerifyTotpArgs, 'code'>>;
