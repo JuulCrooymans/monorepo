@@ -3,5 +3,6 @@ query Me {
     id
     email
     enabledTotp
+    verified
   }
 }

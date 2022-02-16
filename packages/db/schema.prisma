@@ -15,6 +15,7 @@ model User {
   email         String          @unique
   password      String
   secret        String?
+  verified      Boolean         @default(false)
   sessions      Session[]
   passwordReset PasswordReset[]
 }

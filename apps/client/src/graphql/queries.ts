@@ -26,6 +26,7 @@ export type Mutation = {
   logout?: Maybe<Scalars['Boolean']>;
   resetPassword?: Maybe<Scalars['Boolean']>;
   resetPasswordWithEmail?: Maybe<Scalars['Boolean']>;
+  resetPasswordWithToken?: Maybe<Scalars['Boolean']>;
   root?: Maybe<Scalars['String']>;
   signUp?: Maybe<User>;
   verifyTotp?: Maybe<Scalars['Boolean']>;
@@ -56,6 +57,13 @@ export type MutationResetPasswordArgs = {
 
 export type MutationResetPasswordWithEmailArgs = {
   email: Scalars['String'];
+};
+
+
+export type MutationResetPasswordWithTokenArgs = {
+  password: Scalars['String'];
+  token: Scalars['String'];
+  userId: Scalars['String'];
 };
 
 
@@ -101,6 +109,7 @@ export type User = {
   enabledTotp?: Maybe<Scalars['Boolean']>;
   id: Scalars['String'];
   updatedAt: Scalars['DateTime'];
+  verified: Scalars['Boolean'];
 };
 
 export type DeleteSessionMutationVariables = Exact<{
@@ -148,6 +157,22 @@ export type ResetPasswordMutationVariables = Exact<{
 
 export type ResetPasswordMutation = { __typename?: 'Mutation', resetPassword?: boolean | null };
 
+export type ResetPasswordWithEmailMutationVariables = Exact<{
+  email: Scalars['String'];
+}>;
+
+
+export type ResetPasswordWithEmailMutation = { __typename?: 'Mutation', resetPasswordWithEmail?: boolean | null };
+
+export type ResetPasswordWithTokenMutationVariables = Exact<{
+  userId: Scalars['String'];
+  token: Scalars['String'];
+  password: Scalars['String'];
+}>;
+
+
+export type ResetPasswordWithTokenMutation = { __typename?: 'Mutation', resetPasswordWithToken?: boolean | null };
+
 export type SessionsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -171,7 +196,7 @@ export type VerifyTotpMutation = { __typename?: 'Mutation', verifyTotp?: boolean
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, email: string, enabledTotp?: boolean | null } | null };
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, email: string, enabledTotp?: boolean | null, verified: boolean } | null };
 
 
 export const DeleteSessionDocument = `
@@ -284,6 +309,34 @@ export const useResetPasswordMutation = <
       (variables?: ResetPasswordMutationVariables) => fetch<ResetPasswordMutation, ResetPasswordMutationVariables>(ResetPasswordDocument, variables)(),
       options
     );
+export const ResetPasswordWithEmailDocument = `
+    mutation ResetPasswordWithEmail($email: String!) {
+  resetPasswordWithEmail(email: $email)
+}
+    `;
+export const useResetPasswordWithEmailMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<ResetPasswordWithEmailMutation, TError, ResetPasswordWithEmailMutationVariables, TContext>) =>
+    useMutation<ResetPasswordWithEmailMutation, TError, ResetPasswordWithEmailMutationVariables, TContext>(
+      ['ResetPasswordWithEmail'],
+      (variables?: ResetPasswordWithEmailMutationVariables) => fetch<ResetPasswordWithEmailMutation, ResetPasswordWithEmailMutationVariables>(ResetPasswordWithEmailDocument, variables)(),
+      options
+    );
+export const ResetPasswordWithTokenDocument = `
+    mutation ResetPasswordWithToken($userId: String!, $token: String!, $password: String!) {
+  resetPasswordWithToken(userId: $userId, token: $token, password: $password)
+}
+    `;
+export const useResetPasswordWithTokenMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<ResetPasswordWithTokenMutation, TError, ResetPasswordWithTokenMutationVariables, TContext>) =>
+    useMutation<ResetPasswordWithTokenMutation, TError, ResetPasswordWithTokenMutationVariables, TContext>(
+      ['ResetPasswordWithToken'],
+      (variables?: ResetPasswordWithTokenMutationVariables) => fetch<ResetPasswordWithTokenMutation, ResetPasswordWithTokenMutationVariables>(ResetPasswordWithTokenDocument, variables)(),
+      options
+    );
 export const SessionsDocument = `
     query Sessions {
   sessions {
@@ -341,6 +394,7 @@ export const MeDocument = `
     id
     email
     enabledTotp
+    verified
   }
 }
     `;

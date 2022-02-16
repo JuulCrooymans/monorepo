@@ -25,6 +25,7 @@ export type Mutation = {
   logout?: Maybe<Scalars['Boolean']>;
   resetPassword?: Maybe<Scalars['Boolean']>;
   resetPasswordWithEmail?: Maybe<Scalars['Boolean']>;
+  resetPasswordWithToken?: Maybe<Scalars['Boolean']>;
   root?: Maybe<Scalars['String']>;
   signUp?: Maybe<User>;
   verifyTotp?: Maybe<Scalars['Boolean']>;
@@ -55,6 +56,13 @@ export type MutationResetPasswordArgs = {
 
 export type MutationResetPasswordWithEmailArgs = {
   email: Scalars['String'];
+};
+
+
+export type MutationResetPasswordWithTokenArgs = {
+  password: Scalars['String'];
+  token: Scalars['String'];
+  userId: Scalars['String'];
 };
 
 
@@ -100,6 +108,7 @@ export type User = {
   enabledTotp?: Maybe<Scalars['Boolean']>;
   id: Scalars['String'];
   updatedAt: Scalars['DateTime'];
+  verified: Scalars['Boolean'];
 };
 
 
@@ -205,6 +214,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   logout?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   resetPassword?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationResetPasswordArgs, 'newPassword' | 'oldPassword'>>;
   resetPasswordWithEmail?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationResetPasswordWithEmailArgs, 'email'>>;
+  resetPasswordWithToken?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationResetPasswordWithTokenArgs, 'password' | 'token' | 'userId'>>;
   root?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   signUp?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationSignUpArgs, 'email' | 'password'>>;
   verifyTotp?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationVerifyTotpArgs, 'code'>>;
@@ -240,6 +250,7 @@ export type UserResolvers<ContextType = Context, ParentType extends ResolversPar
   enabledTotp?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  verified?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

@@ -1,7 +1,6 @@
 import Navbar from "./Navbar";
 import DashboardNavbar from "./DashboardNavbar";
 import SettingsSidebar from "./SettingsSidebar";
-import { useMeQuery } from "@graphql/queries";
 
 interface LayoutProps {
   children: React.ReactElement;
@@ -33,8 +32,6 @@ Layout.Dashboard = ({ children }: DashboardLayout) => {
 };
 
 Layout.Settings = ({ children }: SettingsLayout) => {
-  const { data, isLoading } = useMeQuery();
-
   return (
     <div>
       <DashboardNavbar />
@@ -42,7 +39,9 @@ Layout.Settings = ({ children }: SettingsLayout) => {
         <div className="lg:col-span-2">
           <SettingsSidebar />
         </div>
-        <div className="w-full xl:col-span-6 lg:col-span-8">{children}</div>
+        <div className="w-full xl:col-span-6 lg:col-span-8">
+          <div>{children}</div>
+        </div>
       </div>
     </div>
   );

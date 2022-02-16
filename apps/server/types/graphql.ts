@@ -14,6 +14,7 @@ export interface Context {
     email: string;
     secret: string | null;
     validTotp: boolean;
+    verified: boolean;
   } | null;
   isAuth: boolean;
   redis: Redis;

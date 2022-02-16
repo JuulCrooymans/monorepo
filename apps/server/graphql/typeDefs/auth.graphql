@@ -28,4 +28,9 @@ extend type Mutation {
   verifyTotp(code: String!): Boolean
   resetPassword(oldPassword: String!, newPassword: String!): Boolean
   resetPasswordWithEmail(email: String!): Boolean
+  resetPasswordWithToken(
+    userId: String!
+    token: String!
+    password: String!
+  ): Boolean
 }
