@@ -5,11 +5,7 @@ import {
   UserInputError,
   ForbiddenError,
 } from "apollo-server-express";
-import {
-  generatePassword,
-  comparePassword,
-  resetPasswordToken,
-} from "../../utils/auth";
+import { generatePassword, comparePassword, hashToken } from "../../utils/auth";
 import { sendEmail } from "../../utils/sendEmail";
 import { redis } from "../../utils/redis";
 import { generateSecret, verifyToken } from "node-2fa";
@@ -147,10 +143,23 @@ const resolver: Resolvers = {
         },
       });
 
+      const { token, hash } = await hashToken();
+
+      await prisma.verifyEmail.create({
+        data: {
+          token: hash,
+          user: {
+            connect: {
+              id: user.id,
+            },
+          },
+        },
+      });
+
       sendEmail({
-        to: email,
-        subject: "Reset password",
-        text: `Hi,\n\nYou can reset here: `,
+        to: user.email,
+        subject: "Verify email",
+        text: `Hi,\n\nYou can reset here: ${process.env.CLIENT_URL}/verify?token=${token}&id=${user.id}`,
       });
 
       return user;
@@ -271,12 +280,10 @@ const resolver: Resolvers = {
       });
 
       if (!user) {
-        throw new UserInputError("E-mail not found", {
-          arg: "email",
-        });
+        return null;
       }
 
-      const { token, hash } = await resetPasswordToken();
+      const { token, hash } = await hashToken();
 
       await prisma.passwordReset.create({
         data: {
@@ -347,6 +354,39 @@ const resolver: Resolvers = {
       });
 
       return null;
+    },
+    verifyEmail: async (_, { token, userId }, { prisma, cache }) => {
+      const verifyToken = await prisma.verifyEmail.findFirst({
+        where: {
+          userId,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      });
+
+      if (!verifyToken) {
+        return false;
+      }
+
+      const checkToken = await comparePassword(verifyToken.token, token);
+
+      if (!checkToken) {
+        return false;
+      }
+
+      await prisma.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          verified: true,
+        },
+      });
+
+      cache.delete(`me:${userId}`);
+
+      return true;
     },
   },
 };
