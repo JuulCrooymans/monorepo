@@ -35,7 +35,7 @@ export async function comparePassword(
   return await bcrypt.compare(password, hash);
 }
 
-export async function resetPasswordToken(): Promise<{
+export async function hashToken(): Promise<{
   hash: string;
   token: string;
 }> {

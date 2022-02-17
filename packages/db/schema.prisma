@@ -18,6 +18,7 @@ model User {
   verified      Boolean         @default(false)
   sessions      Session[]
   passwordReset PasswordReset[]
+  VerifyEmail   VerifyEmail[]
 }
 
 model Session {
@@ -33,6 +34,14 @@ model PasswordReset {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  token     String
+}
+
+model VerifyEmail {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
   userId    String
   token     String
 }

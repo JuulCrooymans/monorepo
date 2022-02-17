@@ -33,4 +33,5 @@ extend type Mutation {
     token: String!
     password: String!
   ): Boolean
+  verifyEmail(token: String!, userId: String!): Boolean
 }
