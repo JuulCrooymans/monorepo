@@ -98,7 +98,6 @@ for (const app of apps) {
 }
 
 // Ingress
-// dit nog even checken
 const ingress = new k8s.networking.v1.Ingress(
   `${project}-ingress`,
   {
